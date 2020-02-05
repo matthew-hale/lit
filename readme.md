@@ -60,3 +60,13 @@ files total:
 It won't spit out test.sh, because it only parses real fenced code 
 blocks that start at the beginning of the line. The test.sh example was 
 just that - an example of what it should look like in your file.
+
+## Background
+One workflow that I really like is something akin to a homegrown 
+"literate programming," where I write out my thoughts like a narrative 
+prose, and intersperse them with code snippets. The problem with doing 
+this is that I don't have a convenient way to extract those code 
+snippets into a resultant code file; I have to either manually 
+copy/paste, or do sone wonky scripting. Now, I can do everything like I 
+normally do in a markdown file, but at the end I can run it through lit 
+and have the code files, too.
