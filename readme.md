@@ -88,6 +88,7 @@ and have the code files, too.
 
 ## Roadmap
 
++ Add flags for append/overwrite (currently only appends)
 + Add output directory flag (currently spits everything out to current 
 directory)
 + Add input file flag (currently only accepts stdin)
