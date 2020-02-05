@@ -76,3 +76,9 @@ snippets into a resultant code file; I have to either manually
 copy/paste, or do sone wonky scripting. Now, I can do everything like I 
 normally do in a markdown file, but at the end I can run it through lit 
 and have the code files, too.
+
+## Roadmap
+
++ Add output directory flag (currently spits everything out to current 
+directory)
++ Add input file flag (currently only accepts stdin)
