@@ -20,6 +20,15 @@ Run lit (currently only takes stdin; filepath support is TODO):
 $ cat file.md | lit
 ```
 
+## Installation
+Currently, you can install lit by cloning the repository and using `go 
+install`:
+
+```
+$ cd lit/lit
+$ go install
+```
+
 ## Examples
 Say I'm explaining a particular operation in a shell language, and I 
 want to demonstrate with a code block, like so:
