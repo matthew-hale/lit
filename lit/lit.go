@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"bufio"
 	"os"
+	"regexp"
+	"strings"
 )
 
 func input() []string {
@@ -17,7 +19,10 @@ func input() []string {
 
 func main() {
 	input := input()
+	fileStartMatch := regexp.MustCompilePOSIX("^```[a-zA-Z0-9 _\\-]+\\.?[a-zA-Z]*$")
 	for _, line := range input {
-		fmt.Println(line)
+		if fileStartMatch.MatchString(line) {
+			fmt.Println(strings.Trim(line, "```"))
+		}
 	}
 }
