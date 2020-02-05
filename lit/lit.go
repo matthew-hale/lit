@@ -28,7 +28,7 @@ func main() {
 	input := input()
 	fileStartMatch := regexp.MustCompilePOSIX("^```[a-zA-Z0-9 _\\-]+\\.?[a-zA-Z]*$")
 	fileEndMatch := regexp.MustCompilePOSIX("^```$")
-	fileIndexes:= make([]int, 0)
+	fileIndexes := make([]int, 0)
 	for i, line := range input {
 		if fileStartMatch.MatchString(line) {
 			fileIndexes = append(fileIndexes, i)
