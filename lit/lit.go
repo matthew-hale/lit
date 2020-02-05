@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"bufio"
 	"os"
 	"log"
@@ -18,9 +17,15 @@ func input() []string {
 	return in
 }
 
+func litOpen(name string) *os.File {
+	f, err := os.OpenFile(name, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	check(err)
+	return f
+}
+
 func check(e error) {
 	if e != nil {
-		panic(e)
+		log.Fatal(e)
 	}
 }
 
@@ -36,28 +41,21 @@ func main() {
 	}
 	for _, index := range fileIndexes {
 		filename := strings.Trim(input[index], "```")
-		fmt.Println(filename)
 
-		if _, err := os.Stat(filename); err == nil {
-			// File exists; we open it
-			f, err := os.Open(filename)
-			check(err)
-			defer f.Close()
-		} else if os.IsNotExist(err) {
-			// File doesn't exist; we create it
-			f, err := os.Create(filename)
-			check(err)
-			defer f.Close()
-		} else {
-			// Some other error occured; we log.Fatal
-			log.Fatal(err)
-		}
+		f := litOpen(filename)
 
+		// For each index, we're going to want to write all lines to a file 
+		// until we hit the end of the code block.
 		for _, line := range input[index+1:] {
 			if fileEndMatch.MatchString(line) {
 				break
 			}
-			fmt.Println(line)
+			// Write line to file
+			_, err := f.WriteString(line + "\n")
+			check(err)
 		}
+
+		f.Sync()
+		f.Close()
 	}
 }
