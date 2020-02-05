@@ -28,7 +28,7 @@ still want to generate a script file with this code in it, I can make a
 second code block with a different name:
 
 ```file2.sh
-echo this is a second code block, which will dump to a separate file
+echo this is a second code block, which will dump to file2.sh
 ```
 
 I can revisit the concept I talked about in the first code block by
@@ -51,9 +51,12 @@ Example:
 echo Goodbye, world
 ```
 
-This entire readme.md file can be processed by lit, and will spit out 3 
+This entire readme.md file can be processed by lit, and will spit out 2 
 files total:
 
-+ test.sh
 + file.sh
 + file2.sh
+
+It won't spit out test.sh, because it only parses real fenced code 
+blocks that start at the beginning of the line. The test.sh example was 
+just that - an example of what it should look like in your file.
