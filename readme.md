@@ -2,8 +2,8 @@
 A program to extract code blocks from text into standalone code files.
 
 ## Usage
-Code blocks can be classed with a filename, like this (read the raw 
-readme.md for a better look):
+Code blocks in a markdown file can be classed with a filename, like 
+this:
 
     ```test.sh
     #!/bin/sh
@@ -13,6 +13,12 @@ readme.md for a better look):
 
 Multiple code blocks classed with the same filename are combined into 
 an output file of the same name.
+
+Run lit (currently only takes stdin; filepath support is TODO):
+
+```
+$ cat file.md | lit
+```
 
 ## Examples
 Say I'm explaining a particular operation in a shell language, and I 
