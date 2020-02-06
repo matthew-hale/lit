@@ -1,23 +1,65 @@
 # lit
-A program to extract code blocks from text into standalone code files.
+Lit is a simple program that parses markdown-formatted text, extracting 
+text from code blocks and saving them to standalone files. Files are 
+specified by name in the code block, and multiple code blocks with the 
+same file name are combined into the same file.
 
 ## Usage
-Code blocks in a markdown file can be classed with a filename, like 
-this:
+Markdown-formatted text input looks like this:
+
+    # Title
+    This is a description of my script. Here's where I started:
 
     ```test.sh
     #!/bin/sh
     
-    echo this is code written within a code block
+    echo this is code in my script
+
     ```
 
-Multiple code blocks classed with the same filename are combined into 
-an output file of the same name.
+    After that, I did this thing:
 
-Run lit (currently only takes stdin; filepath support is TODO):
+    ```test.sh
+    if [ -n "$thing" ]; then
+        echo "$thing"
+    fi
+
+    ```
+
+    But I encountered these issues:
+
+    * a
+    * b
+    * c
+
+    So I fixed it with this:
+
+    ```test.sh
+    if [ -z "$var" ]; then
+        exit 1
+    fi
+    ```
+
+Running the text through lit:
 
 ```
+$ ls
+file.md
 $ cat file.md | lit
+$ ls
+file.md     test.sh
+$ cat test.sh
+#!/bin/sh
+
+echo this is code in my script
+
+if [ -n "$thing" ]; then
+    echo "$thing"
+fi
+
+if [ -z "$var" ]; then
+    exit 1
+fi
 ```
 
 ## Installation
