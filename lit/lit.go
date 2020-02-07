@@ -48,13 +48,13 @@ func check(e error) {
 func main() {
 	// These are our command line flags
 	overwritePtr := flag.Bool("f", false ,"force complete overwrite of named script files (default is to append)")
-	//directoryPtr := flag.String("o", "./", "output directory (defaults to current working directory)")
+	directoryPtr := flag.String("o", "", "output directory (defaults to current working directory)")
 	inputPtr := flag.String("i", "", "input file path (defaults to stdin)")
 
 	flag.Parse()
 
-	// First we determine the output location; if no input flag was 
-	// provided, we'll dump everything to the current directory
+	// First we determine the input file; if no input flag was provided, 
+	// we take input from stdin
 	input := make([]string, 0)
 	if *inputPtr != "" {
 		file, err := os.Stat(*inputPtr)
@@ -70,6 +70,14 @@ func main() {
 		input = stdInput()
 	}
 
+	// Now we'll handle the directory output flag. If no directory output 
+	// is provided, lit dumps everything to the current working directory. 
+	// Otherwise, lit will first attempt to change to the provided 
+	// directory, where it will then dump everything it finds.
+	if *directoryPtr != "" {
+		err := os.Chdir(*directoryPtr)
+		check(err)
+	}
 
 	// Regex definitions
 	fileStartMatch := regexp.MustCompilePOSIX("^```[a-zA-Z0-9 _\\-]+\\.?[a-zA-Z]*$")
