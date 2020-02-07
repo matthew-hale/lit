@@ -2,15 +2,31 @@ package main
 
 import (
 	"bufio"
+	"flag"
+	"fmt"
 	"log"
 	"os"
 	"regexp"
 	"strings"
 )
 
-func stdinput() []string {
+// Parses input from stdin
+func stdInput() []string {
 	in := make([]string, 0)
 	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		in = append(in, scanner.Text())
+	}
+	return in
+}
+
+// Parses input from file
+func fileInput(name string) []string {
+	in := make([]string, 0)
+	f, err := os.Open(name)
+	check(err)
+	defer f.Close()
+	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		in = append(in, scanner.Text())
 	}
@@ -30,7 +46,29 @@ func check(e error) {
 }
 
 func main() {
-	input := stdinput()
+	// These are our command line flags
+	//overwritePtr := flag.Bool("f", false ,"force complete overwrite of named script files (default is to append)")
+	//directoryPtr := flag.String("o", "./", "output directory (defaults to current working directory)")
+	inputPtr := flag.String("i", "", "input file path (defaults to stdin)")
+
+	flag.Parse()
+
+	// First we determine the output location; if no input flag was 
+	// provided, we'll dump everything to the current directory
+	input := make([]string, 0)
+	if *inputPtr != "" {
+		file, err := os.Stat(*inputPtr)
+		check(err)
+		switch mode := file.Mode(); {
+			case mode.IsDir():
+				fmt.Fprintf(os.Stderr, "%s is a directory; -i requires a file; exiting\n", *inputPtr)
+			case mode.IsRegular():
+				input = fileInput(*inputPtr)
+		}
+	} else {
+		input = stdInput()
+	}
+
 	fileStartMatch := regexp.MustCompilePOSIX("^```[a-zA-Z0-9 _\\-]+\\.?[a-zA-Z]*$")
 	fileEndMatch := regexp.MustCompilePOSIX("^```$")
 	fileIndexes := make([]int, 0)
