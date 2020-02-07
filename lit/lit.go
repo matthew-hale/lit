@@ -47,7 +47,7 @@ func check(e error) {
 
 func main() {
 	// These are our command line flags
-	//overwritePtr := flag.Bool("f", false ,"force complete overwrite of named script files (default is to append)")
+	overwritePtr := flag.Bool("f", false ,"force complete overwrite of named script files (default is to append)")
 	//directoryPtr := flag.String("o", "./", "output directory (defaults to current working directory)")
 	inputPtr := flag.String("i", "", "input file path (defaults to stdin)")
 
@@ -62,6 +62,7 @@ func main() {
 		switch mode := file.Mode(); {
 			case mode.IsDir():
 				fmt.Fprintf(os.Stderr, "%s is a directory; -i requires a file; exiting\n", *inputPtr)
+				os.Exit(1)
 			case mode.IsRegular():
 				input = fileInput(*inputPtr)
 		}
@@ -74,13 +75,57 @@ func main() {
 	fileStartMatch := regexp.MustCompilePOSIX("^```[a-zA-Z0-9 _\\-]+\\.?[a-zA-Z]*$")
 	fileEndMatch := regexp.MustCompilePOSIX("^```$")
 
-	// Here we gather all of the filenames found in our input.
+	// Here we gather all of the indexes where file names were found in 
+	// our input.
 	fileIndexes := make([]int, 0)
 	for i, line := range input {
 		if fileStartMatch.MatchString(line) {
 			fileIndexes = append(fileIndexes, i)
 		}
 	}
+
+	// Here we handle the overwrite flag. If overwrite is set to true, 
+	// we'll first want to clear out all of the files found in the input 
+	// if they exist. This can be interpreted as "delete," since litOpen() 
+	// handles the case of a file not existing.
+	if *overwritePtr == true {
+		// First, gather all of the unique file names
+		filenames := make([]string, 0)
+		for _, index := range fileIndexes {
+			filename := strings.Trim(input[index], "```")
+			// Append only if unique
+			skip := false
+			for _, ele := range filenames {
+				if ele == filename {
+					skip = true
+					break
+				}
+			}
+			if !skip {
+				filenames = append(filenames, filename)
+			}
+		}
+
+		// Next, remove them if they exist
+		for _, filename := range filenames {
+			if _, err := os.Stat(filename); err == nil {
+				// File exists; if it's a regular file, remove it
+				file, _:= os.Stat(filename)
+				mode := file.Mode()
+				if mode.IsRegular() {
+					err := os.Remove(filename)
+					check(err)
+				}
+			} else if os.IsNotExist(err) {
+				// file doesn't exist; do nothing
+			} else {
+				// unknown file error
+				check(err)
+			}
+		}
+	}
+
+	// Now we write to the files
 	for _, index := range fileIndexes {
 		filename := strings.Trim(input[index], "```")
 
