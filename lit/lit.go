@@ -142,6 +142,7 @@ func main() {
 			check(err)
 		}
 
+		fmt.Fprintf(os.Stdout, "%s written\n", filename)
 		f.Sync()
 		f.Close()
 	}
