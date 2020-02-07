@@ -40,7 +40,7 @@ Markdown-formatted text input looks like this:
     fi
     ```
 
-Using lit via stdin:
+Using `lit` via stdin:
 
 ```
 $ ls
@@ -65,7 +65,7 @@ if [ -z "$var" ]; then
 fi
 ```
 
-Using lit via file input flag:
+Using `lit` via file input flag:
 
 ```
 $ ls
@@ -90,7 +90,7 @@ if [ -z "$var" ]; then
 fi
 ```
 
-Overwriting an existing test.sh file:
+Overwriting an existing `test.sh` file:
 
 ```
 $ ls
@@ -119,7 +119,7 @@ if [ -z "$var" ]; then
 fi
 ```
 
-Spitting out test.sh into a different directory:
+Spitting out `test.sh` into a different directory:
 
 ```
 $ ls
