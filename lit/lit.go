@@ -2,13 +2,13 @@ package main
 
 import (
 	"bufio"
-	"os"
 	"log"
+	"os"
 	"regexp"
 	"strings"
 )
 
-func input() []string {
+func stdinput() []string {
 	in := make([]string, 0)
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
@@ -30,7 +30,7 @@ func check(e error) {
 }
 
 func main() {
-	input := input()
+	input := stdinput()
 	fileStartMatch := regexp.MustCompilePOSIX("^```[a-zA-Z0-9 _\\-]+\\.?[a-zA-Z]*$")
 	fileEndMatch := regexp.MustCompilePOSIX("^```$")
 	fileIndexes := make([]int, 0)
