@@ -69,8 +69,12 @@ func main() {
 		input = stdInput()
 	}
 
+
+	// Regex definitions
 	fileStartMatch := regexp.MustCompilePOSIX("^```[a-zA-Z0-9 _\\-]+\\.?[a-zA-Z]*$")
 	fileEndMatch := regexp.MustCompilePOSIX("^```$")
+
+	// Here we gather all of the filenames found in our input.
 	fileIndexes := make([]int, 0)
 	for i, line := range input {
 		if fileStartMatch.MatchString(line) {
