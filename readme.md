@@ -68,8 +68,6 @@ fi
 Using `lit` via file input flag:
 
 ```
-$ ls
-file.md
 $ lit -i file.md
 test.sh written
 test.sh written
@@ -96,9 +94,7 @@ Overwriting an existing `test.sh` file:
 $ ls
 file.md     test.sh
 $ cat test.sh
-this file contains these line of text
-this file contains these line of text
-this file contains these line of text
+this file contains this line of text
 $ lit -i file.md -f
 test.sh written
 test.sh written
