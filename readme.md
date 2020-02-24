@@ -163,7 +163,13 @@ and have the code files, too.
 
 ## Roadmap
 
-+ ~~Add flags for append/overwrite (currently only appends)~~ - complete
-+ ~~Add output directory flag (currently spits everything out to current 
+* ~~Add flags for append/overwrite (currently only appends)~~ - complete
+* ~~Add output directory flag (currently spits everything out to current 
 directory)~~ - complete
-+ ~~Add input file flag (currently only accepts stdin)~~ - complete
+* ~~Add input file flag (currently only accepts stdin)~~ - complete
+* Add a flag that will, instead of spitting out separate script blocks, 
+take the first named script block as a file name and spit out a script 
+file containing all of the content of the file, with the markdown text 
+included as comments, and the script block delimiters removed. Will 
+also necessitate a comment sign parameter, for file types whose 
+comments don't start with a '#'.
